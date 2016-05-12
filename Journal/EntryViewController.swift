@@ -20,22 +20,30 @@ class EntryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let newEntry = self.entry {
-            updateWith(newEntry)
+            updateViewWith(newEntry)
         }
     }
     
     @IBAction func saveJournal(sender: AnyObject) {
+        if let entry2 = self.entry {
+            entry2.title = journalTitle.text!
+            entry2.text = journalTextField.text
+            entry2.timestamp = NSDate()
+        } else {
+            
         if let title = journalTitle.text, body = journalTextField.text where title.characters.count > 0 && body.characters.count > 0 {
             let newEntry = Entry(title: title, text: body)
             EntryController.sharedInstance.createEntry(newEntry)
-            navigationController?.popViewControllerAnimated(true)
-            
         }
+        }
+        navigationController?.popViewControllerAnimated(true)
     }
     
-    func updateWith(entry: Entry) {
+    func updateViewWith(entry: Entry) {
         self.journalTextField.text = entry.text
         self.journalTitle.text = entry.title
     }
+    
+    
     //TODO: Add an updateWith method to update the view according to what entry was selected
 }

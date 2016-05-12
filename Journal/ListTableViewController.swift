@@ -12,7 +12,6 @@ class ListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -26,27 +25,39 @@ class ListTableViewController: UITableViewController {
         
         return EntryController.sharedInstance.entries.count
     }
-
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("journalCell", forIndexPath: indexPath)
-
         let entry = EntryController.sharedInstance.entries[indexPath.row]
         cell.textLabel?.text = entry.title
         return cell
     }
     
-    /*
+    ////////SWIPE TO DELETE
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            // Delete the row from the data source
+            
+            let deletedEntry = EntryController.sharedInstance.entries[indexPath.row]
+            EntryController.sharedInstance.removeEntry(deletedEntry)
+            
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        }
+    }
+    
+    /*
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+     
+     
+            objects.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        }
     }
     */
+    
 
     // MARK: - Navigation
 
@@ -62,13 +73,6 @@ class ListTableViewController: UITableViewController {
     }
 }
 
-/*
-if segue.identifier == "toDetail", let indexPath = tableView.indexPathForSelectedRow {
-    let playlist = PlaylistController.sharedInstance.playlists[indexPath.row]
-    let songVC = segue.destinationViewController as! SongTableViewController
-    songVC.playlist = playlist
-}
-*/
 
 
 
